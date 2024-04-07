@@ -1,0 +1,37 @@
+syntax = "proto3";
+package smart.retail;
+
+service App {
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc CalculateTotal(stream Product) returns (TotalResponse);
+    rpc Purchase(PurchaseRequest) returns (PurchaseResponse);
+}
+
+message LoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string token = 1;
+} 
+
+message Product {
+    int quantity = 1;
+    float price = 2; 
+}
+
+message TotalResponse {
+    float total = 1;
+}
+
+message PurchaseRequest {
+    float total = 1;
+    string token = 2;
+    CardDetails car_details = 3;
+}
+
+message PurchaseResponse {
+    bool success = 1;
+}
+

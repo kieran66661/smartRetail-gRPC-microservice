@@ -1,0 +1,27 @@
+syntax = "proto3";
+package smart.retail;
+
+service SmartShelfService {
+    rpc UpdateInventory(UpdateInventoryRequest) returns (UpdateInventoryResponse);
+    rpc UpdateStock(UpdateStockRequest) returns (UpdateStockResponse);
+}
+
+message UpdateInventoryRequest {
+    int bay_number = 1;
+    string bay_location = 2;
+    string product_name = 3;
+    int stock = 4;
+}
+
+message UpdateInventoryResponse {
+    bool success = 1;
+}
+
+message UpdateStockRequest {
+    string product_name = 1;
+    int quantity = 2;
+}
+
+message UpdateStockResponse {
+    bool success = 1;
+}

@@ -1,0 +1,30 @@
+syntax = "proto3";
+package smart.retail;
+
+service smartTrolley {
+    rpc GetPromotionalRecommendations(stream Product) returns (stream Promotion);
+    rpc GetProductInfo(Product) returns (stream ProductInfo);
+    rpc AddToCart(AddToCartRequest) returns (AddToCartResponse);
+}
+
+message Product {
+    string product_name = 1;
+}
+
+message Promotion {
+    string promotion = 1;
+}
+
+message ProductInfo {
+    string location = 1;
+    bool stock_availablity = 2;
+}
+
+message AddToCartRequest {
+    string product_name = 1;
+    int quantity = 2;
+}
+
+message AddToCartResponse {
+  bool success = 1;
+}
