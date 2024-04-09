@@ -6,7 +6,7 @@ const appProto = grpc.loadPackageDefinition(packageDefinition).smartRetail;
 const users = [
     { username: 'John Ryan', password: 'John1234', session_id: '3572HJKF', products: ['ProductA', 'ProductB']},
     { username: 'Mary Burke', password: 'Cork77', session_id: '9968ILSS', products: ['ProductC', 'ProductD']},
-    { username: 'Yvonne Donovan', password: 'YvonneD99', session_id: '0377TYYU', products: ['ProductE', 'ProductF']}
+    { username: 'Yvonne Donovan', password: 'YvonneD99', session_id: '0377TYYU', products: ['ProductE', 'ProductG']}
 ]
 
 function login(call, callback) {
