@@ -1,5 +1,5 @@
 syntax = "proto3";
-package smart.retail;
+package smartRetail;
 
 service SmartShelfService {
     rpc UpdateInventory(UpdateInventoryRequest) returns (UpdateInventoryResponse);
@@ -24,4 +24,5 @@ message UpdateStockRequest {
 
 message UpdateStockResponse {
     bool success = 1;
+    string stock_update = 2;
 }

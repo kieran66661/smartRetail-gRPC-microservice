@@ -1,5 +1,5 @@
 syntax = "proto3";
-package smart.retail;
+package smartRetail;
 
 service smartTrolley {
     rpc GetPromotionalRecommendations(stream Product) returns (stream Promotion);

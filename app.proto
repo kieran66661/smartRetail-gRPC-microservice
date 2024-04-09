@@ -1,5 +1,5 @@
 syntax = "proto3";
-package smart.retail;
+package smartRetail;
 
 service App {
     rpc Login(LoginRequest) returns (LoginResponse);
@@ -13,25 +13,33 @@ message LoginRequest {
 }
 
 message LoginResponse {
-    string token = 1;
+    string session_id = 1;
 } 
 
 message Product {
-    int quantity = 1;
+    int32 quantity = 1;
     float price = 2; 
+    string name = 3;
 }
 
 message TotalResponse {
     float total = 1;
 }
 
+message CardDetails {
+    string card_number = 1;
+    string expiration_date = 2;
+    string cvv = 3;
+}
+
 message PurchaseRequest {
     float total = 1;
-    string token = 2;
-    CardDetails car_details = 3;
+    string session_id = 2;
+    CardDetails card_details = 3;
 }
 
 message PurchaseResponse {
     bool success = 1;
+    string message = 2;
 }
 
