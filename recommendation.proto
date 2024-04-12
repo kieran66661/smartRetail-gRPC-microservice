@@ -1,0 +1,14 @@
+syntax = "proto3";
+package smartRetail;
+
+service Recommendation {
+    rpc GetPromotionalRecommendations(stream Product) returns (stream Promotion);
+}
+
+message Product {
+    string name = 1;
+}
+
+message Promotion {
+    string promotion = 1;
+}
