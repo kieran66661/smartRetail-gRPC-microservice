@@ -2,9 +2,19 @@ syntax = "proto3";
 package smartRetail;
 
 service SmartShelf {
+    rpc getPrice (getPriceRequest) return (getPriceResponse);
     rpc listProducts (ListProductsRequest) returns (stream ProductData);
     rpc GetProductInfo(Product) returns (ProductInfo);
     rpc UpdateStock(stream UpdateStockRequest) returns (UpdateStockResponse);
+    rpc CheckStock(StockRequest) returns (StockResponse);
+}
+
+message getPriceRequest {
+    string product_name = 1;
+}
+
+message getPriceResponse {
+    float price = 1;
 }
 
 message ListProductsRequest {}
@@ -29,4 +39,14 @@ message UpdateStockRequest {
 
 message UpdateStockResponse {
     bool success = 1;
+}
+
+message StockRequest {
+    string product_name = 1;
+    int32 quantity = 2;
+}
+
+message StockResponse {
+    bool success = 1;
+    string message = 2;
 }

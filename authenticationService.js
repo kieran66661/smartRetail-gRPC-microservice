@@ -28,10 +28,11 @@ server.addService(authenticationService.Authentication.service, {
     AuthenticateUser: authenticateUser,
 });
 
-server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
-    if (err) {
-        console.error('Failed to bind server:', err);
-        return;
+
+server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
+    if (err != null) {
+      console.error(err);
+      return;
     }
-    console.log(`Authentication server running at ${port}`);
+    console.log(`Authentication Server running at http://127.0.0.1:${port}`);
 });

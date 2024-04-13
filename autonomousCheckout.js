@@ -17,22 +17,16 @@ function addToCart(call, callback) {
 
 function getCart(call, callback) {
     console.log('Retrieving cart');
-    callback(null, { cart: cartArray });
+    callback(null, { cart: cart });
 }
 
 function calculateTotal(call, callback) {
     let total = 0;
-    call.on('data', product => {
+        cart.forEach(product => {
         total += product.price * product.quantity;
-        const user = users.find(user => user.session_id === call.request.session_id);
-        if (user) {
-            user.products.push(product);
-        }
     });
-    call.on('end', () => {
-        console.log('Cart total:', total);
-        callback(null, { total });
-    });
+    console.log('Cart total:', total);
+    callback(null, { total });
 }
 
 function purchase(call, callback) {
@@ -56,12 +50,11 @@ server.addService(autonomousCheckout.AutonomousCheckout.service, {
     Purchase: purchase
 });
 
-server.bindAsync('0.0.0.0:50054', grpc.ServerCredentials.createInsecure(), (err, port) => {
-    if (err) {
-        console.error('Failed to bind server:', err);
-        return;
+server.bindAsync('127.0.0.1:50054', grpc.ServerCredentials.createInsecure(), (err, port) => {
+    if (err != null) {
+      console.error(err);
+      return;
     }
-    console.log(`Autonomous Checkout server running at ${port}`);
+    console.log(`Autonomous Checkout Server running at http://127.0.0.1:${port}`);
 });
-
 
