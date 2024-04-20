@@ -4,7 +4,7 @@ const packageDefinition = protoLoader.loadSync('recommendation.proto');
 const recommendationService = grpc.loadPackageDefinition(packageDefinition).smartRetail;
 
 
-function getPromotionalRecommendations(call, callback) {
+function getPromotionalRecommendations(call) {
     const recommendations = {
         'ProductA': 'Buy one ProductJ get one free!',
         'ProductB': 'Save 20% on ProductK in store now',
@@ -13,27 +13,29 @@ function getPromotionalRecommendations(call, callback) {
         'ProductE': '3 for the price of 2 on ProductN'
     };
 
-    const promotions = [];
-
     call.on('data', (product) => {
         const productName = product.name;
+        console.log(`Received request for promotional recommendation for product: ${productName}`);
         const recommendedPromotion = recommendations[productName];
 
         if (recommendedPromotion) {
-            promotions.push(recommendedPromotion);
+            console.log(`Sending promotion for product: ${productName}`);
+            call.write({ promotion: recommendedPromotion });
         } else {
-            console.log(`No promotion available for ${productName}`);
+            console.log(`${productName} not found.`);
+            call.write({promotion: `Product not found`});
+
         }
     });
+
     call.on('end', () => {
         console.log('Client stream ended');
-        const promotionMessage = { promotions: promotions };
-        callback(null, promotionMessage);
+        call.end();
     });
 
     call.on('error', (error) => {
         console.error('Error:', error.message);
-        callback(error);
+        call.emit('end');
     });
 }
 

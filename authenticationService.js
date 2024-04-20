@@ -15,10 +15,10 @@ function authenticateUser(call, callback) {
     const user = users.find(un => un.username === username && un.password === password);
     if (user) {
         console.log(`'${username}' has succefully logged in!`);
-        callback(null, { session_id: user.session_id });
+        callback(null, { loggedIn: true });
     } else {
         console.log(`User '${username}' login unsuccessful.`);
-        callback({ code: grpc.status.UNAUTHENTICATED, message: 'Invalid username or password' });
+        callback(null, { loggedIn: false });
     }    
 }
 

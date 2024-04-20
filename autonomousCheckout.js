@@ -6,13 +6,13 @@ const autonomousCheckout = grpc.loadPackageDefinition(packageDefinition).smartRe
 let cart = [];
 
 function addToCart(call, callback) {
-    const { product_name, quantity, price } = call.request;
+    const { productName, quantity, price } = call.request;
     cart.push({
-        product_name: product_name,
+        productName: productName,
         quantity: quantity,
         price: price
     });
-    callback(null, { success: true, message: `${quantity} of ${product_name} added to the cart` });
+    callback(null, { success: true });
 }
 
 function getCart(call, callback) {
@@ -21,8 +21,13 @@ function getCart(call, callback) {
 }
 
 function calculateTotal(call, callback) {
+    console.log('Cart:', cart);
+    cart.forEach(product => {
+        console.log(`${product.productName}: ${product.price} x ${product.quantity}`);
+    });
+    
     let total = 0;
-        cart.forEach(product => {
+    cart.forEach(product => {
         total += product.price * product.quantity;
     });
     console.log('Cart total:', total);
@@ -30,10 +35,17 @@ function calculateTotal(call, callback) {
 }
 
 function purchase(call, callback) {
-    const { card_number, expiration_date, cvv } = call.request.card_details;
-    if (card_number && expiration_date && cvv) {
+    const cardNumber = call.request.cardNumber;
+    const expirationDate = call.request.expirationDate;
+    const cvv = call.request.cvv;
+
+    console.log("Card number:", cardNumber);
+    console.log("Expiration date:", expirationDate);
+    console.log("CVV:", cvv);
+
+    if (cardNumber && expirationDate && cvv) {
         const total = call.request.total;
-        console.log(`Charging card ${card_number} the total amount: ${total}`);
+        console.log(`Charging card ${cardNumber} the total amount: ${total}`);
         callback(null, { success: true, message: 'Purchase successful' });
     } else {
         console.log('Invalid card details provided');

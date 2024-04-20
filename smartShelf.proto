@@ -2,47 +2,50 @@ syntax = "proto3";
 package smartRetail;
 
 service SmartShelf {
-    rpc getPrice (getPriceRequest) return (getPriceResponse);
-    rpc listProducts (ListProductsRequest) returns (stream ProductData);
-    rpc GetProductInfo(Product) returns (ProductInfo);
+    rpc GetPrice (getPriceRequest) returns (getPriceResponse);
+    rpc GetProductInfo(ProductInfoRequest) returns (ProductInfoResponse);
     rpc UpdateStock(stream UpdateStockRequest) returns (UpdateStockResponse);
     rpc CheckStock(StockRequest) returns (StockResponse);
+    rpc GetProductNames(Empty) returns (stream ProductNamesResponse);
 }
 
-message getPriceRequest {
-    string product_name = 1;
-}
+message Empty {}
 
-message getPriceResponse {
-    float price = 1;
-}
-
-message ListProductsRequest {}
-
-message ProductData {
+message ProductNamesResponse {
     string name = 1;
     string category = 2;
 }
 
-message Product {
-    string product_name = 1;
+message getPriceRequest {
+    string productName = 1;
 }
 
-message ProductInfo {
-    string prouductinformation = 1;
+message getPriceResponse {
+    int32 price = 1;
+}
+
+message ProductInfoRequest {
+    string productName = 1;
+}
+
+message ProductInfoResponse {
+    string productName = 1;
+    int32 stock_available = 2;
+    string directions = 3;
 }
 
 message UpdateStockRequest {
-    string product_name = 1;
+    string productName = 1;
     int32 quantity = 2;
 }
 
 message UpdateStockResponse {
     bool success = 1;
+    string message = 2;
 }
 
 message StockRequest {
-    string product_name = 1;
+    string productName = 1;
     int32 quantity = 2;
 }
 
@@ -50,3 +53,4 @@ message StockResponse {
     bool success = 1;
     string message = 2;
 }
+

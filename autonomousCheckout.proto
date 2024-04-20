@@ -9,9 +9,9 @@ service AutonomousCheckout {
 }
 
 message CartItem {
-    string product_name = 1;
+    string productName = 1;
     int32 quantity = 2;
-    float price = 3;
+    int32 price = 3;
 }
 
 message AddToCartResponse {
@@ -27,20 +27,16 @@ message GetCartResponse {
 message CalculateTotalRequest {}
 
 message CalculateTotalResponse {
-    float total = 1;
-}
-
-message CardDetails {
-    string card_number = 1;
-    string expiration_date = 2;
-    string cvv = 3;
+    int32 total = 1;
 }
 
 message PurchaseRequest {
-    float total = 1;
-    string session_id = 2;
-    CardDetails card_details = 3;
+    int32 total = 1;
+    string cardNumber = 2;
+    string expirationDate = 3;
+    string cvv = 4;
 }
+
 
 message PurchaseResponse {
     bool success = 1;

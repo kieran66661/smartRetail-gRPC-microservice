@@ -2,7 +2,7 @@ syntax = "proto3";
 package smartRetail;
 
 service Authentication {
-    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc AuthenticateUser(LoginRequest) returns (LoginResponse);
 }    
 
 message LoginRequest {
@@ -11,5 +11,5 @@ message LoginRequest {
 }
 
 message LoginResponse {
-    string session_id = 1;
+    bool loggedIn = 1;
 } 
