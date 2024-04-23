@@ -13,7 +13,6 @@ function getPromotionalRecommendations(call) {
         'ProductD': 'Try our new ProductM in store now!',
         'ProductE': '3 for the price of 2 on ProductN'
     };
-
     call.on('data', (product) => { //data event handler listning for data streamed from the client
         const productName = product.name;
         console.log(`Received request for promotional recommendation for product: ${productName}`);
@@ -25,7 +24,6 @@ function getPromotionalRecommendations(call) {
         } else {
             console.log(`${productName} not found.`);
             call.write({promotion: `Product not found`}); //notify product not found otherwise
-
         }
     });
 

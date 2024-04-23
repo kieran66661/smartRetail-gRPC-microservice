@@ -76,7 +76,7 @@ async function userMenu() {
       const quantity = await askQuestion('Enter quantity: ');
       addToCart(productToAdd, parseInt(quantity), userMenu);
       break;
-    case '4'://get product recomnedation command
+    case '4'://get product recomendation command
       getPromotionalRecommendations(userMenu);
       break;    
     case '5': 
@@ -186,7 +186,7 @@ function getProductInfo(productName, callback) {
   });
 }
 
-//functio to add items to the cart
+//function to add items to the cart
 async function addToCart(productName, quantity, callback) {
   try {
     //check if in stock and await result
@@ -239,36 +239,30 @@ function getPrice(productName) {
   });
 }
 
+//bidirectional streaming RPC that allows user to input products and recieve recomendations
 async function getPromotionalRecommendations(callback) {
-  try {
-      const call = recommendationServiceClient.getPromotionalRecommendations();
+  const call = recommendationServiceClient.getPromotionalRecommendations();
 
-      call.on('data', (response) => {
-          console.log('Received promotions:', response.promotion);
-      });
+  call.on('data', (response) => { //listen for promotion responses
+      console.log('Received promotions:', response.promotion);
+  });
 
-      call.on('end', () => {
-          console.log('Server stream ended');
-          if (callback) callback(); 
-      });
-
-      call.on('error', (error) => {
-          console.error('Error:', error.message);
-          if (callback) callback(error); 
-      });
-
-      while (true) {
-          const productName = await askQuestion('Enter a product name (or type "exit" to quit): ');
-          if (productName.toLowerCase() === 'exit') {
-              call.end();
-              callback();  
-              break;
-          }
-          call.write({ name: productName });
-      }
-  } catch (error) {
+  call.on('end', () => {
+      console.log('Server stream ended');
+      if (callback) callback(); 
+  });
+  call.on('error', (error) => { //error event listener
       console.error('Error:', error.message);
-      if (callback) callback(error);
+      if (callback) callback(error); 
+  });
+  while (true) { //keep asking for products until user enters exit
+      const productName = await askQuestion('Enter a product name (or type "exit" to quit): ');
+      if (productName.toLowerCase() === 'exit') {
+          call.end();
+          callback();  
+          break;
+      }
+      call.write({ name: productName });
   }
 }
 
