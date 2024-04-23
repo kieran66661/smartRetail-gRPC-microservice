@@ -30,7 +30,7 @@ message ProductInfoRequest {
 
 message ProductInfoResponse {
     string productName = 1;
-    int32 stock_available = 2;
+    int32 stockAvailable = 2;
     string directions = 3;
 }
 
